@@ -1,3 +1,15 @@
+### devop
+
+* add new templates for issues [#3529](https://github.com/MyEtherWallet/MyEtherWallet/pull/3529)
+* temporary release holder [#3538](https://github.com/MyEtherWallet/MyEtherWallet/pull/3538)
+
+### fix
+
+* * add convert units page [#3516](https://github.com/MyEtherWallet/MyEtherWallet/pull/3516)
+* replace mew-super-button and other buttons with mew-button [#3518](https://github.com/MyEtherWallet/MyEtherWallet/pull/3518)
+* * fix failed to fetch and wrong prev session [#3525](https://github.com/MyEtherWallet/MyEtherWallet/pull/3525)
+* * add more error handling for trezor wallet popup [#3535](https://github.com/MyEtherWallet/MyEtherWallet/pull/3535)
+
 ### Release v6.3.0
 
 ### devop
