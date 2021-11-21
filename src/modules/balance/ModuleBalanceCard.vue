@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="component--wallet-card">
     <div class="mew-card drop-shadow">
@@ -7,183 +8,13 @@
         @load="animateMewCard()"
       />
     </div>
-    <div class="info-container pl-8 pr-5 py-4 text-shadow">
-      <div class="d-flex flex-row justify-space-between align-start">
-        <div>
-          <!--
-          =====================================================================================
-            Address
-          =====================================================================================
-          -->
-          <v-menu offset-y>
-            <template #activator="{ on }">
-              <div
-                class="
-                  d-flex
-                  align-center
-                  cursor--pointer
-                  personal-account-container
-                "
-                v-on="on"
-              >
-                <div
-                  class="
-                    info-container--text
-                    font-weight-bold
-                    text-uppercase
-                    white--text
-                  "
-                >
-                  MY Personal Account
-                </div>
-                <v-icon class="white--text ml-2" small dense>
-                  mdi-menu-down
-                </v-icon>
-              </div>
-            </template>
-            <v-list width="232px">
-              <v-list-item class="cursor-pointer" @click="refresh">
-                <v-icon color="textDark" class="mr-3">mdi-refresh</v-icon>
-                <v-list-item-title> Refresh Balance</v-list-item-title>
-              </v-list-item>
-              <v-list-item class="cursor-pointer" @click="openPaperWallet">
-                <v-icon color="textDark" class="mr-3">mdi-printer</v-icon>
-                <v-list-item-title>View paper wallet</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                v-if="isHardware && canDisplayAddress"
-                class="cursor-pointer"
-                @click="viewAddressOnDevice"
-              >
-                <mew-icon
-                  :icon-name="iconIdentifier"
-                  :img-height="24"
-                  class="mr-3"
-                />
-                <v-list-item-title
-                  >View address on {{ walletName }}</v-list-item-title
-                >
-              </v-list-item>
-              <v-divider class="mx-5 my-4"></v-divider>
-              <v-list-item
-                v-if="canSwitch"
-                class="cursor-pointer"
-                @click="openChangeAddress"
-              >
-                <v-icon color="textDark" class="mr-3"
-                  >mdi-account-box-multiple</v-icon
-                >
-                <v-list-item-title>Switch Account</v-list-item-title>
-              </v-list-item>
-              <v-list-item class="cursor-pointer" @click="openLogout">
-                <v-icon color="textDark" class="mr-3">mdi-logout</v-icon>
-                <v-list-item-title>Logout</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          <div class="d-flex align-center">
-            <v-tooltip top content-class="tooltip-inner">
-              <template #activator="{ on }">
-                <div
-                  class="
-                    justify-start
-                    d-flex
-                    align-center
-                    info-container--addr
-                    monospace
-                  "
-                  v-on="on"
-                >
-                  {{ addrFirstSix }}
-                  <v-icon class="info-container--addr pt-1"
-                    >mdi-dots-horizontal</v-icon
-                  >
 
-                  {{ addrlastFour }}
-                </div>
-              </template>
-              <span class="titlePrimary--text">{{
-                getChecksumAddressString
-              }}</span>
-            </v-tooltip>
-          </div>
-        </div>
-      </div>
-      <!--
-      =====================================================================================
-        Total Wallet FIAT balance OR if Test network Chain Balance
-      =====================================================================================
-      -->
-      <div
-        :class="[
-          { 'ml-n5': !isTestNetwork },
-          'mew-subtitle text-shadow white--text mt-5 mb-4'
-        ]"
-      >
-        <span v-if="!isTestNetwork" style="padding-right: 2px">$</span
-        >{{ totalWalletBalance }}
-        <span v-if="isTestNetwork" style="padding-left: 2px; font-size: 14px">{{
-          network.type.currencyName
-        }}</span>
-      </div>
-      <div class="d-flex justify-space-between align-center">
-        <div class="justify-start">
-          <!--
-          =====================================================================================
-            Total Wallet chain balance: prensent if not Test network
-          =====================================================================================
-          -->
-          <div v-if="!isTestNetwork" class="info-container--text-chain-balance">
-            {{ walletChainBalance }} {{ network.type.currencyName }}
-          </div>
-          <!--
-          =====================================================================================
-            Total Tokens: present if tokens found
-          =====================================================================================
-          -->
-          <div v-if="nonChainTokensCount > 0" class="info-container--text">
-            and {{ nonChainTokensCount }} Tokens
-          </div>
-        </div>
-        <div class="d-flex justify-end">
-          <!--
-          =====================================================================================
-            QR CODE
-          =====================================================================================
-          -->
-          <v-btn
-            class="info-container--action-btn mr-2 px-0"
-            fab
-            depressed
-            color="white"
-            @click="openQR = true"
-            ><v-icon class="info-container--icon" size="18px"
-              >mdi-qrcode</v-icon
-            ></v-btn
-          >
-          <!--
-          =====================================================================================
-            Copy Button
-          =====================================================================================
-          -->
-          <v-btn
-            class="info-container--action-btn px-0"
-            depressed
-            fab
-            color="white"
-            @click="copyAddress"
-            ><v-icon class="info-container--icon" small
-              >mdi-content-copy</v-icon
-            ></v-btn
-          >
-        </div>
-      </div>
-    </div>
-    <!--
-    =====================================================================================
-      Wallet card modals
-    =====================================================================================
-    -->
+    <module-access-wallet-hardware
+      v-if="!!instance.path"
+      :open="openChangeAddress"
+      :close="closeChangeAddress"
+      :switch-address="!!instance.path"
+    />
     <balance-address-paper-wallet
       :open="showPaperWallet"
       :close="closePaperWallet"
@@ -257,26 +88,12 @@ import AppModal from '@/core/components/AppModal';
 import AppAddrQr from '@/core/components/AppAddrQr';
 import BalanceAddressPaperWallet from './components/BalanceAddressPaperWallet';
 import { mapGetters, mapActions, mapState } from 'vuex';
-import clipboardCopy from 'clipboard-copy';
-import { Toast, INFO, SUCCESS } from '@/modules/toast/handler/handlerToast';
-import { toChecksumAddress } from '@/core/helpers/addressUtils';
-import {
-  formatFiatValue,
-  formatFloatingPointValue
-} from '@/core/helpers/numberFormatHelper';
-import { isEmpty } from 'underscore';
-import ModuleAccessWalletHardware from '@/modules/access-wallet/ModuleAccessWalletHardware';
-import ModuleAccessWalletSoftware from '@/modules/access-wallet/ModuleAccessWalletSoftware';
-import wallets from './handlers/config';
-import WALLET_TYPES from '../access-wallet/common/walletTypes';
 
 export default {
   components: {
     BalanceAddressPaperWallet,
     AppModal,
-    AppAddrQr,
-    ModuleAccessWalletHardware,
-    ModuleAccessWalletSoftware
+    AppAddrQr
   },
   data() {
     return {
@@ -284,8 +101,7 @@ export default {
       showPaperWallet: false,
       openQR: false,
       showLogout: false,
-      showVerify: false,
-      wallets: wallets
+      showVerify: false
     };
   },
   computed: {
@@ -296,149 +112,10 @@ export default {
       'balanceFiatValue',
       'totalTokenFiatValue'
     ]),
-    ...mapGetters('global', ['isEthNetwork', 'network', 'isTestNetwork']),
-    /**
-     * verify address title
-     * returns @String
-     */
-    verifyAddressTitle() {
-      return `This wallet is accessed with ${this.instance.meta.name}`;
-    },
-    /**
-     * verify address body
-     * returns @String
-     */
-    verifyAddressBody() {
-      return `To verify, check the address on your ${this.instance.meta.name} device & make sure it is the same address as the one shown below.`;
-    },
-    /**
-     * Shows hardware access or software access
-     * returns @Boolean
-     */
-    showHardware() {
-      return (
-        !isEmpty(this.instance) &&
-        this.instance.path &&
-        this.identifier !== WALLET_TYPES.MNEMONIC
-      );
-    },
-    /**
-     * returns checksummed address
-     */
-    getChecksumAddressString() {
-      return this.address ? toChecksumAddress(this.address) : '';
-    },
-    /**
-     * checks whether hardware wallet
-     * can display address with the device
-     *
-     * returns @Boolean
-     */
-    canDisplayAddress() {
-      return (
-        !isEmpty(this.instance) &&
-        this.instance.hasOwnProperty('displayAddress') &&
-        this.instance.displayAddress
-      );
-    },
-    /**
-     * adds checks for icons that mew-components doesn't have
-     * returns @String
-     */
-    iconIdentifier() {
-      if (this.identifier === WALLET_TYPES.BITBOX2) {
-        return 'bitbox';
-      }
-      return this.identifier;
-    },
-    /**
-     * checks whether wallet can switch address
-     * returns @Boolean
-     */
-    canSwitch() {
-      return !isEmpty(this.instance) && this.wallets[this.identifier];
-    },
-    /**
-     * returns hardware wallet name
-     * returns @String
-     */
-    walletName() {
-      return !isEmpty(this.instance) &&
-        this.instance.meta.hasOwnProperty('name')
-        ? this.instance.meta.name
-        : '';
-    },
-    /**
-     * returns token values
-     * returns @String
-     */
-    totalTokenBalance() {
-      return this.totalTokenFiatValue;
-    },
-    /**
-     * returns total value including tokens
-     * returns @String
-     */
-    totalWalletBalance() {
-      if (!this.isTestNetwork) {
-        const total = this.totalTokenBalance;
-        return formatFiatValue(total).value;
-      }
-      return this.walletChainBalance;
-    },
-    /**
-     * returns formatted wallet balance
-     * returns @String
-     */
-    walletChainBalance() {
-      return `${formatFloatingPointValue(this.balanceInETH).value}`;
-    },
-    /**
-     * @returns {string} first 6 letters in the address
-     */
-    addrFirstSix() {
-      return this.address ? this.address.substring(0, 6) : '';
-    },
-    /**
-     * @returns {string} lat 4 letters in the address
-     */
-    addrlastFour() {
-      return this.address
-        ? this.address.substring(this.address.length - 4, this.address.length)
-        : '';
-    },
-    /**
-     * @returns {number} count of non chain tokens
-     */
-    nonChainTokensCount() {
-      return this.tokensList.length - 1;
-    }
+    ...mapGetters('global', ['isEthNetwork', 'network', 'isTestNetwork'])
   },
   methods: {
     ...mapActions('external', ['setTokenAndEthBalance']),
-    ...mapActions('wallet', ['removeWallet']),
-    /**
-     * refreshes the token and eth balance
-     */
-    refresh() {
-      this.setTokenAndEthBalance();
-    },
-    /**
-     * calls hardware wallet show address function
-     * and opens verify modal
-     */
-    viewAddressOnDevice() {
-      this.showVerify = true;
-      if (this.canDisplayAddress) {
-        this.instance.displayAddress().then(() => {
-          this.showVerify = false;
-          Toast('Address verified!', {}, SUCCESS);
-        });
-      }
-    },
-    /**
-     * Animates wallet card
-     */
     animateMewCard() {
       const el = document.querySelector('.mew-card');
       if (el) {
@@ -473,24 +150,6 @@ export default {
     closePaperWallet() {
       this.showPaperWallet = false;
     },
-    /**
-     * sets showPaperWallet to true
-     * to open the modal
-     */
-    openPaperWallet() {
-      this.showPaperWallet = true;
-    },
-    /**
-     * Copies address
-     */
-    copyAddress() {
-      clipboardCopy(this.getChecksumAddressString);
-      Toast(`Copied ${this.getChecksumAddressString} successfully!`, {}, INFO);
-    },
-    /**
-     * set openQR to false
-     * to close the modal
-     */
     closeQR() {
       this.openQR = false;
     },
@@ -506,13 +165,6 @@ export default {
      */
     closeVerify() {
       this.showVerify = false;
-    },
-    /**
-     * set showLogout to true
-     * to open the modal
-     */
-    openLogout() {
-      this.showLogout = true;
     },
     /**
      * calls removeWallet

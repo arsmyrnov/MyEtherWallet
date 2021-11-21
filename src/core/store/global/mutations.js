@@ -57,11 +57,11 @@ const SET_TRACKING_CONSENT = function (state, val) {
 };
 
 const NEVER_SHOW_TRACKING = function (state) {
-  state.displayedTrackingPopup = true;
+  state.displayedTrackingPopup = false;
 };
 
 const NEVER_SHOW_BANNER = function (state) {
-  state.showedBanner = true;
+  state.showedBanner = false;
 };
 
 const NEVER_SHOW_WALLET_PROMO = function (state) {
