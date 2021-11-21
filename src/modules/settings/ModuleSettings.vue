@@ -1,10 +1,5 @@
 <template>
   <mew-overlay
-    :footer="{
-      text: 'Need help?',
-      linkTitle: 'Contact support',
-      link: 'mailto:support@myetherwallet.com'
-    }"
     :title="title"
     :show-overlay="onSettings"
     :back="editMode || addMode ? back : null"
@@ -17,14 +12,16 @@
       :idx-to-expand="idxToExpand"
     >
       <template #panelBody1>
-        <settings-gas-price
-          :buttons="gasButtons"
-          :selected="gasPriceType"
-          :set-selected="setSelected"
-          :total-gas-limit="gasPrice"
-          :global="true"
-          :from-settings="true"
-        />
+        <div class="px-5">
+          <settings-gas-price
+            :buttons="gasButtons"
+            :selected="gasPriceType"
+            :set-selected="setSelected"
+            :total-gas-limit="gasPrice"
+            :global="true"
+            :from-settings="true"
+          />
+        </div>
       </template>
       <template #panelBody2>
         <settings-import-config :import-config="settingsHandler" />
@@ -85,7 +82,7 @@ import { ROUTES_HOME, ROUTES_WALLET } from '@/core/configs/configRoutes';
 const modes = ['add', 'edit'];
 
 export default {
-  name: 'Settings',
+  name: 'ModuleSettings',
   components: {
     SettingsImportConfig,
     SettingsExportConfig,
@@ -150,7 +147,7 @@ export default {
       return [
         {
           name: 'Default transaction priority',
-          subtext: this.setPriority(this.gasPriceType)
+          toggleTitle: this.setPriority(this.gasPriceType)
         },
         {
           name: 'Import configurations'

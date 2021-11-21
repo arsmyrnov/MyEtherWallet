@@ -155,17 +155,6 @@
                   <v-icon class="primary--text">mdi-check-circle</v-icon>
                 </v-card>
 
-                <div class="error--text mt-3 mb-7 font-weight-medium">
-                  Insufficient balance.
-                  <a
-                    href="https://ccswap.myetherwallet.com/#/"
-                    target="_blank"
-                    class="text-decoration--underline"
-                  >
-                    Buy more ETH
-                  </a>
-                </div>
-
                 <v-card
                   flat
                   color="tableHeader"
@@ -210,7 +199,7 @@
             <div>
               <mew-expand-panel :panel-items="myDomains">
                 <template #panelBody1>
-                  <div>
+                  <div class="px-5">
                     <div class="header-block bg_datablock">
                       <v-row>
                         <v-col cols="6">
@@ -279,7 +268,7 @@
                   </div>
                 </template>
                 <template #panelBody2>
-                  <div>
+                  <div class="px-5">
                     <div class="header-block bg_datablock">
                       <v-row>
                         <v-col cols="6">
@@ -386,7 +375,7 @@ export default {
       myDomains: [
         {
           name: 'mewdev009.eth',
-          subtext: '',
+          toggleTitle: '',
           colorTheme: 'superPrimary',
           warningBadge: {
             color: 'warning darken-2',
@@ -395,7 +384,7 @@ export default {
         },
         {
           name: 'mewdev008.eth',
-          subtext: '',
+          toggleTitle: '',
           colorTheme: 'superPrimary',
           warningBadge: {
             color: 'warning darken-2',
@@ -406,7 +395,8 @@ export default {
       BG: BG,
       topBanner: {
         title: 'Unstoppable Domain',
-        subtext: 'Replace cryptocurrency addresses with a human readable name.'
+        toggleTitle:
+          'Replace cryptocurrency addresses with a human readable name.'
       },
       results: [
         {

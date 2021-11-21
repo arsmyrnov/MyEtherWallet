@@ -106,47 +106,49 @@
             @toggled="closeToggle"
           >
             <template #panelBody1>
-              <!-- Warning Sheet -->
-              <div
-                class="pa-5 warning textBlack2--text border-radius--5px mb-8"
-              >
-                <div class="d-flex font-weight-bold mb-2">
-                  <v-icon class="textBlack2--text mew-body mr-1">
-                    mdi-alert-outline</v-icon
-                  >For advanced users only
-                </div>
-                <div>
-                  Please don’t edit these fields unless you are an expert user &
-                  know what you’re doing. Entering the wrong information could
-                  result in your transaction failing or getting stuck.
-                </div>
-              </div>
-              <div class="d-flex align-center justify-end pb-3">
+              <div class="px-5">
+                <!-- Warning Sheet -->
                 <div
-                  class="mew-body primary--text cursor--pointer"
-                  @click="setGasLimit(defaultGasLimit)"
+                  class="pa-5 warning textBlack2--text border-radius--5px mb-8"
                 >
-                  Reset to default: {{ formattedDefaultGasLimit }}
+                  <div class="d-flex font-weight-bold mb-2">
+                    <v-icon class="textBlack2--text mew-body mr-1">
+                      mdi-alert-outline</v-icon
+                    >For advanced users only
+                  </div>
+                  <div>
+                    Please don’t edit these fields unless you are an expert user
+                    & know what you’re doing. Entering the wrong information
+                    could result in your transaction failing or getting stuck.
+                  </div>
                 </div>
+                <div class="d-flex align-center justify-end pb-3">
+                  <div
+                    class="mew-body primary--text cursor--pointer"
+                    @click="setGasLimit(defaultGasLimit)"
+                  >
+                    Reset to default: {{ formattedDefaultGasLimit }}
+                  </div>
+                </div>
+
+                <mew-input
+                  :value="gasLimit"
+                  :label="$t('common.gas.limit')"
+                  placeholder=""
+                  :error-messages="gasLimitError"
+                  type="number"
+                  @input="setGasLimit"
+                />
+
+                <mew-input
+                  v-show="!isToken"
+                  v-model="data"
+                  :label="$t('sendTx.add-data')"
+                  placeholder="0x..."
+                  :rules="dataRules"
+                  class="mb-8"
+                />
               </div>
-
-              <mew-input
-                :value="gasLimit"
-                :label="$t('common.gas.limit')"
-                placeholder=""
-                :error-messages="gasLimitError"
-                type="number"
-                @input="setGasLimit"
-              />
-
-              <mew-input
-                v-show="!isToken"
-                v-model="data"
-                :label="$t('sendTx.add-data')"
-                placeholder="0x..."
-                :rules="dataRules"
-                class="mb-8"
-              />
             </template>
           </mew-expand-panel>
         </v-col>
@@ -185,7 +187,6 @@ import SendTransaction from '@/modules/send/handlers/handlerSend';
 import { ETH } from '@/utils/networks/types';
 import { Toast, WARNING } from '@/modules/toast/handler/handlerToast';
 import ModuleAddressBook from '@/modules/address-book/ModuleAddressBook';
-import SendLowBalanceNotice from './components/SendLowBalanceNotice.vue';
 import AppButtonBalance from '@/core/components/AppButtonBalance';
 import AppTransactionFee from '@/core/components/AppTransactionFee.vue';
 import { formatIntegerToString } from '@/core/helpers/numberFormatHelper';
@@ -193,7 +194,6 @@ import { MAIN_TOKEN_ADDRESS } from '@/core/helpers/common';
 export default {
   components: {
     ModuleAddressBook,
-    SendLowBalanceNotice,
     AppButtonBalance,
     AppTransactionFee
   },
@@ -228,7 +228,7 @@ export default {
       expandPanel: [
         {
           name: this.$t('common.advanced'),
-          subtext: 'Gas Limit & Data'
+          toggleTitle: 'Gas Limit & Data'
         }
       ],
       defaultGasLimit: '21000',
@@ -247,7 +247,6 @@ export default {
       'network',
       'gasPrice',
       'isEthNetwork',
-      'swapLink',
       'gasPriceByType'
     ]),
     ...mapGetters('wallet', ['balanceInETH', 'tokensList']),
@@ -265,8 +264,8 @@ export default {
     buyMore() {
       return this.isEthNetwork &&
         MAIN_TOKEN_ADDRESS === this.selectedCurrency?.contract &&
-        this.amountError === 'Not enough balance to send!'
-        ? 'Buy more.'
+        this.amountError === 'Not enough balance to send! Buy more.'
+        ? ''
         : '';
     },
     hasEnoughEth() {
@@ -328,9 +327,7 @@ export default {
         ? tokensList.unshift({
             hasNoEth: true,
             disabled: true,
-            text: 'Your wallet is empty.',
-            linkText: this.isEthNetwork ? 'Buy ETH' : '',
-            link: this.isEthNetwork ? this.swapLink : ''
+            text: 'Your wallet is empty. Buy ETH.'
           })
         : null;
       return [

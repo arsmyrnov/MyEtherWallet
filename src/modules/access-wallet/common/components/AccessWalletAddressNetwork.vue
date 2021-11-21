@@ -154,7 +154,9 @@
           =====================================================================================
           -->
       <template #panelBody2>
-        <network-switch :is-wallet="false" @newNetwork="setNetworkPanel" />
+        <div class="px-5">
+          <network-switch :is-wallet="false" @newNetwork="setNetworkPanel" />
+        </div>
       </template>
     </mew-expand-panel>
     <!--
@@ -165,7 +167,7 @@
     <div class="d-flex align-center flex-column py-6">
       <mew-checkbox
         v-model="acceptTerms"
-        label="To access my wallet, I accept "
+        label="To access wallet, I accept "
         :link="link"
         class="justify-center"
       />
@@ -177,7 +179,7 @@
         -->
     <app-btn-row
       class="my-2"
-      next-btn-text="Access my wallet"
+      next-btn-text="Access wallet"
       :next-btn-method="accessWallet"
       :back-btn-method="null"
       :next-disable="!acceptTerms"

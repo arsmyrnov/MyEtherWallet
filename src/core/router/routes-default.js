@@ -1,5 +1,4 @@
 import TheDefaultView from '@/views/TheDefaultView';
-import TheHomeLayout from '@/views/layouts-default/TheHomeLayout';
 import TheHowItWorksLayout from '@/views/layouts-default/TheHowItWorksLayout';
 import TheCompanyLayout from '@/views/layouts-default/TheCompanyLayout';
 import TheTeamLayout from '@/views/layouts-default/TheTeamLayout';
@@ -12,6 +11,7 @@ import TheAccessWalletLayout from '@/views/layouts-default/TheAccessWalletLayout
 import ThePrivacyPolicyLayout from '@/views/layouts-default/ThePrivacyPolicyLayout';
 import TheSecurityPolicyLayout from '@/views/layouts-default/TheSecurityPolicyLayout';
 import TheTermsOfServiceLayout from '@/views/layouts-default/TheTermsOfServiceLayout';
+import TheConvertUnits from '@/views/layouts-default/TheConvertUnits';
 import { ROUTES_HOME } from '../configs/configRoutes';
 import {
   createWalletProps,
@@ -26,12 +26,14 @@ export default {
   props: true,
   children: [
     {
-      path: ROUTES_HOME.HOME.PATH,
-      name: ROUTES_HOME.HOME.NAME,
-      component: TheHomeLayout,
+      path: ROUTES_HOME.ACCESS_WALLET.PATH,
+      name: ROUTES_HOME.ACCESS_WALLET.NAME,
+      component: TheAccessWalletLayout,
+      props: accessWalletProps,
       meta: {
         noAuth: true
-      }
+      },
+      beforeEnter: accessRouteGuard
     },
     {
       path: ROUTES_HOME.HOW_IT_WORKS.PATH,
@@ -109,6 +111,14 @@ export default {
       path: ROUTES_HOME.DAPP_SUBMISSION.PATH,
       name: ROUTES_HOME.DAPP_SUBMISSION.NAME,
       component: TheDappSubmissionLayout,
+      meta: {
+        noAuth: true
+      }
+    },
+    {
+      path: ROUTES_HOME.CONVERT_UNITS.PATH,
+      name: ROUTES_HOME.CONVERT_UNITS.NAME,
+      component: TheConvertUnits,
       meta: {
         noAuth: true
       }
