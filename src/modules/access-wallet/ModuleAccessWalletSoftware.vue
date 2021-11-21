@@ -8,7 +8,7 @@
     content-size="large"
     :show-overlay="open"
     :title="title"
-    :back="showBackBtn ? accessBack : null"
+    :back="showBackBtn && !switchAddress ? accessBack : null"
     :close="close"
   >
     <!--
@@ -60,6 +60,7 @@
     <access-wallet-mnemonic
       v-if="walletType === types.MNEMONIC"
       :handler-access-wallet="accessHandler"
+      :switch-address="switchAddress"
       class="mb-6"
       @unlock="unlockWallet"
     />
@@ -119,6 +120,10 @@ export default {
     walletType: {
       type: String,
       default: ''
+    },
+    switchAddress: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -177,6 +182,7 @@ export default {
      * @returns correct title of the overlay according to the wallet type selected
      */
     title() {
+      if (this.switchAddress) return 'Switch Address';
       switch (this.walletType) {
         case SOFTWARE_WALLET_TYPES.KEYSTORE:
           return 'Access Wallet with Keystore File';
@@ -188,10 +194,18 @@ export default {
           return 'Select Software Wallet';
       }
     },
-    ...mapState('external', ['path'])
+    ...mapState('external', ['path']),
+    ...mapState('wallet', ['identifier'])
+  },
+  watch: {
+    open(newVal) {
+      if (this.identifier && this.switchAddress && newVal) {
+        this.setType(this.identifier);
+      }
+    }
   },
   /**
-   * Lifecucle hooks to create and destroy access wallet handler
+   * Lifecycle hooks to create and destroy access wallet handler
    */
   mounted() {
     this.accessHandler = new handlerAccessWalletSoftware();
@@ -217,6 +231,10 @@ export default {
           : account;
         this.setWallet([wallet])
           .then(() => {
+            if (this.switchAddress) {
+              this.close();
+              return;
+            }
             if (this.path !== '') {
               this.$router.push({ path: this.path });
             } else {

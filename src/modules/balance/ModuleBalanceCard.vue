@@ -16,7 +16,7 @@
       :switch-address="!!instance.path"
     />
     <balance-address-paper-wallet
-      :open="openPaperWallet"
+      :open="showPaperWallet"
       :close="closePaperWallet"
       @close="closePaperWallet"
     />
@@ -30,6 +30,55 @@
         <app-addr-qr />
       </template>
     </app-modal>
+    <module-access-wallet-hardware
+      v-if="showHardware"
+      :open="showChangeAddress"
+      :close="closeChangeAddress"
+      :switch-address="!!instance.path"
+    />
+    <module-access-wallet-software
+      v-else
+      :open="showChangeAddress"
+      :close="closeChangeAddress"
+      :switch-address="!!instance.path"
+      :wallet-type="identifier"
+    />
+
+    <mew-popup
+      max-width="400px"
+      hide-close-btn
+      :show="showLogout"
+      :title="$t('interface.menu.logout')"
+      :left-btn="{ text: 'Cancel', method: closeLogout, color: 'basic' }"
+      :right-btn="{
+        text: 'Log out',
+        color: 'error',
+        method: onLogout,
+        enabled: true
+      }"
+    />
+    <mew-popup
+      max-width="515px"
+      :show="showVerify"
+      :title="verifyAddressTitle"
+      :has-buttons="false"
+      :has-body-content="true"
+      :left-btn="{ text: 'Cancel', method: closeVerify, color: 'basic' }"
+    >
+      <div>
+        <div class="text-center">
+          {{ verifyAddressBody }}
+        </div>
+        <div class="mt-3 verify-popup-border px-12 py-5 text-center">
+          <div class="font-weight-bold greenPrimary--text mew-body">
+            ACCOUNT ADDRESS
+          </div>
+          <div class="pt-3 greenPrimary--text mew-body">
+            {{ getChecksumAddressString }}
+          </div>
+        </div>
+      </div>
+    </mew-popup>
   </div>
 </template>
 
@@ -37,7 +86,6 @@
 import anime from 'animejs/lib/anime.es.js';
 import AppModal from '@/core/components/AppModal';
 import AppAddrQr from '@/core/components/AppAddrQr';
-import ModuleAccessWalletHardware from '@/modules/access-wallet/ModuleAccessWalletHardware';
 import BalanceAddressPaperWallet from './components/BalanceAddressPaperWallet';
 import { mapGetters, mapActions, mapState } from 'vuex';
 
@@ -45,19 +93,20 @@ export default {
   components: {
     BalanceAddressPaperWallet,
     AppModal,
-    AppAddrQr,
-    ModuleAccessWalletHardware
+    AppAddrQr
   },
   data() {
     return {
-      openChangeAddress: false,
-      openPaperWallet: false,
-      openQR: false
+      showChangeAddress: false,
+      showPaperWallet: false,
+      openQR: false,
+      showLogout: false,
+      showVerify: false
     };
   },
   computed: {
     ...mapGetters('wallet', ['balanceInETH', 'tokensList']),
-    ...mapState('wallet', ['address', 'instance', 'identifier']),
+    ...mapState('wallet', ['address', 'instance', 'identifier', 'isHardware']),
     ...mapGetters('external', [
       'fiatValue',
       'balanceFiatValue',
@@ -80,14 +129,50 @@ export default {
         });
       }
     },
+    /**
+     * set showChangeAddress to false
+     * to close the modal
+     */
     closeChangeAddress() {
-      this.openChangeAddress = false;
+      this.showChangeAddress = false;
     },
+    /**
+     * set showChangeAddress to true
+     * to open the modal
+     */
+    openChangeAddress() {
+      this.showChangeAddress = true;
+    },
+    /**
+     * set showPaperWallet to false
+     * to close the modal
+     */
     closePaperWallet() {
-      this.openPaperWallet = false;
+      this.showPaperWallet = false;
     },
     closeQR() {
       this.openQR = false;
+    },
+    /**
+     * set showLogout to false
+     * to close the modal
+     */
+    closeLogout() {
+      this.showLogout = false;
+    },
+    /**
+     * close verify address
+     */
+    closeVerify() {
+      this.showVerify = false;
+    },
+    /**
+     * set showLogout to true
+     * to open the modal
+     */
+    onLogout() {
+      this.closeLogout();
+      this.removeWallet();
     }
   }
 };
@@ -154,7 +239,7 @@ export default {
     font-size: 16px !important;
   }
 
-  .info-container--action-print {
+  .info-container--action- {
     opacity: 0.6;
     border-radius: 4px !important;
     height: 14px !important;
@@ -165,7 +250,7 @@ export default {
   }
 
   .info-container--action-btn:hover,
-  .info-container--action-print:hover {
+  .info-container--action-:hover {
     opacity: 1;
   }
   .info-container--icon:hover {
@@ -192,5 +277,19 @@ export default {
 
 .refresh-icon.v-icon.v-icon::after {
   background-color: transparent;
+}
+
+.personal-account-container {
+  border-radius: 10px;
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    padding-left: 8px;
+    margin-left: -8px;
+  }
+}
+
+.verify-popup-border {
+  border: 1px solid var(--v-greenMedium-base);
+  border-radius: 4px;
 }
 </style>

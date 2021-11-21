@@ -11,7 +11,7 @@
           <img
             :src="d.icon"
             :alt="d.label"
-            height="80"
+            height="85"
             class="mr-2"
             :class="{ 'icon-disabled': !d.isAccessible }"
           />
