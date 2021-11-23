@@ -56,7 +56,6 @@
         title="Interact with contract"
         :show-overlay="interact"
         :close="closeInteract"
-        :back="backInteract"
         content-size="medium"
       >
         <mew-select
