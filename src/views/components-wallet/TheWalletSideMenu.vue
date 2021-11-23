@@ -159,7 +159,7 @@
           :to="{ name: ROUTES_WALLET.DASHBOARD.NAME }"
           style="line-height: 0"
         >
-          <img height="26" src="@/assets/images/icons/logo-mew.svg" />
+          <img height="26" src="@/assets/images/icons/logo-light2.png" />
         </router-link>
         <v-spacer />
         <module-notifications invert-icon />
@@ -226,8 +226,7 @@ export default {
         {
           title: this.$t('interface.menu.dapps'),
           route: { name: ROUTES_WALLET.DAPPS.NAME },
-          icon: dapp,
-          hasNew: true
+          icon: dapp
         },
         {
           title: this.$t('interface.menu.contract'),

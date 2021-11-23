@@ -64,47 +64,6 @@
         </v-expansion-panel>
       </v-expansion-panels>
 
-      <v-container class="py-12">
-        <v-sheet color="transparent" max-width="500px" class="mx-auto">
-          <div
-            class="social-icons d-flex align-center justify-space-between mt-12"
-          >
-            <a
-              v-for="(i, key) in socialIcons"
-              :key="key"
-              :href="i.link"
-              target="_blank"
-            >
-              <mew-icon :img-height="23" :icon-name="i.icon" />
-            </a>
-          </div>
-
-          <div class="d-flex mt-10">
-            <div class="d-flex align-center line-height-small mx-auto">
-              <div class="px-2 px-lg-6 border-right">
-                <a
-                  class="color--inherit"
-                  href="mailto:support@myetherwallet.com"
-                  target="_blank"
-                >
-                  Feedback
-                </a>
-              </div>
-              <div class="px-2 px-lg-6 border-right">
-                <router-link :to="{ name: ROUTES_HOME.PRIVACY_POLICY.NAME }">
-                  Privacy
-                </router-link>
-              </div>
-              <div class="px-2 px-lg-6">
-                <router-link :to="{ name: ROUTES_HOME.TERMS_OF_SERVICE.NAME }">
-                  Terms
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </v-sheet>
-      </v-container>
-
       <v-sheet color="titlePrimary" class="py-9">
         <v-container>
           <v-sheet color="transparent" max-width="500px" class="mx-auto">
@@ -147,8 +106,7 @@ export default {
   name: 'TheDefaultFooter',
   mixins: [handlerAnalytics],
   data: () => ({
-    footers: [],
-    socialIcons: []
+    footers: []
   })
 };
 </script>

@@ -74,10 +74,10 @@ const webpackConfig = {
 const exportObj = {
   publicPath: process.env.ROUTER_MODE === 'history' ? '/' : './',
   configureWebpack: webpackConfig,
-  lintOnSave: false,
-  integrity: false,
+  lintOnSave: process.env.NODE_ENV === 'production' ? 'error' : true,
+  integrity: process.env.WEBPACK_INTEGRITY === 'false' ? false : true,
   pwa: {
-    name: 'ImpactLedgerWallet',
+    name: 'MyEtherWallet',
     workboxOptions: {
       importWorkboxFrom: 'local',
       skipWaiting: true,
@@ -96,6 +96,4 @@ const exportObj = {
       .end();
   }
 };
-module.exports = {
-  lintOnSave: false
-}
+module.exports = exportObj;

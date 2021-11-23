@@ -9,7 +9,6 @@
       <the-layout-header
         title="Access Wallet"
         subtitle-line-one=" Please select a method to access your wallet."
-        :route-obj="titleRoute"
         has-link
       />
       <!--
@@ -73,13 +72,6 @@
       =====================================================================================
       -->
       <div class="spacer-y-medium" />
-      <module-access-wallet-mobile :open="showMobile" :close="close" />
-      <module-access-wallet-hardware :open="showHardware" :close="close" />
-      <module-access-wallet-software
-        :open="showSoftware"
-        :close="close"
-        :wallet-type="type"
-      />
     </v-container>
   </div>
 </template>

@@ -43,7 +43,7 @@
                     isEthNetwork &&
                     (amountErrorMessage === errorMsgs.amountExceedsEthBalance ||
                       amountErrorMessage === errorMsgs.amountEthIsTooLow)
-                      ? 'Buy more.'
+                      ? ''
                       : null
                   "
                   :max-btn-obj="{
@@ -99,16 +99,6 @@
             class="mt-sm-5"
             :message="msg.lowBalance"
           >
-            <div v-if="isEthNetwork" class="mt-3 mx-n1">
-              <mew-button
-                btn-size="small"
-                btn-style="outline"
-                title="Buy Ether"
-                class="ma-1"
-                :has-full-width="$vuetify.breakpoint.xsOnly"
-                @click.native="buyEth"
-              />
-            </div>
           </app-user-msg-block>
 
           <!--

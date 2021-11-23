@@ -2,9 +2,6 @@
   <div class="default-header expandHeader">
     <v-container class="d-flex align-center pt-8">
       <v-row align="center" no-gutters>
-        <v-col class="d-md-none" cols="4">
-          <the-default-mobile-navigation class="ml-n2" />
-        </v-col>
         <v-col cols="4">
           <router-link :to="{ name: ROUTES_HOME.HOME.NAME, query: {} }">
             <v-img
@@ -15,23 +12,17 @@
             />
           </router-link>
         </v-col>
-        <v-col cols="4" class="text-right">
-          <mew-tools class="ml-auto" />
-        </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import mewTools from '@/components/mew-tools/MewTools';
-import TheDefaultMobileNavigation from './TheDefaultMobileNavigation';
 import { ROUTES_HOME, ROUTES_WALLET } from '@/core/configs/configRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'TheDefaultHeader',
-  components: { mewTools, TheDefaultMobileNavigation },
   data: () => ({
     // eslint-disable-next-line
     menuObj: {
