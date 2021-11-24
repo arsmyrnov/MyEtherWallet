@@ -4,7 +4,9 @@ const fs = require('fs');
 
 const fetchLists = async () => {
   const contractList = await fetch(
-    'https://api.github.com/repos/MyEtherWallet/ethereum-lists/contents/dist/contracts'
+    'https://api.github.com/repos/MyEtherWallet/ethereum-lists/contents/dist/contracts',{
+      mode: 'no-cors'
+    }
   )
     .then(res => res.json())
     .catch(console.error);

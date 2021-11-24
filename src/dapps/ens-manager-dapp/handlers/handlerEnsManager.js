@@ -51,6 +51,7 @@ export default class ENSManager {
       expiryDate: Math.floor(new Date().getTime() / 1000) - 86400 * 90 // grace period
     };
     return fetch(this.network.type.ens.subgraphPath, {
+      mode: 'no-cors',
       method: 'POST',
       'Content-Type': 'application/json',
       body: JSON.stringify({ query, variables })

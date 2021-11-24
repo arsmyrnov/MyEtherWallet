@@ -26,8 +26,8 @@ export default {
   props: true,
   children: [
     {
-      path: ROUTES_HOME.ACCESS_WALLET.PATH,
-      name: ROUTES_HOME.ACCESS_WALLET.NAME,
+      path: ROUTES_HOME.HOME.PATH,
+      name: ROUTES_HOME.HOME.NAME,
       component: TheAccessWalletLayout,
       props: accessWalletProps,
       meta: {

@@ -1,5 +1,6 @@
 const getHashFromFile = _hash => {
   return fetch('https://swap.mewapi.io/ipfs', {
+    mode: 'no-cors',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json'
@@ -26,6 +27,7 @@ const uploadFileToIpfs = async _file => {
   }
   formData.append('file', _file);
   return fetch(content.body.signedUrl, {
+    mode: 'no-cors',
     method: 'POST',
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -42,6 +44,7 @@ const uploadFileToIpfs = async _file => {
 
 const _fetchUploadUrl = () => {
   return fetch('https://swap.mewapi.io/ipfs', {
+    mode: 'no-cors',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json'

@@ -144,6 +144,7 @@ export function setUsageAsCollateralDetails(param) {
 function fetchQuery(query, param) {
   const url = 'https://protocol-api.aave.com/graphql';
   return fetch(url, {
+    mode: 'no-cors',
     method: 'POST',
     headers: {
       'Access-Control-Allow-Origin': '*',
