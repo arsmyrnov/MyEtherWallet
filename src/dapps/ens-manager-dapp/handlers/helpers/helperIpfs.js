@@ -1,6 +1,7 @@
 const getHashFromFile = _hash => {
   return fetch('https://swap.mewapi.io/ipfs', {
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -27,6 +28,7 @@ const uploadFileToIpfs = async _file => {
   return fetch(content.body.signedUrl, {
     method: 'POST',
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'Content-Length': _file.size
     },
     body: formData
@@ -41,6 +43,7 @@ const uploadFileToIpfs = async _file => {
 const _fetchUploadUrl = () => {
   return fetch('https://swap.mewapi.io/ipfs', {
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json'
     },
     method: 'POST',

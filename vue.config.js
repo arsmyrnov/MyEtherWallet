@@ -21,6 +21,7 @@ const webpackConfig = {
     hotOnly: true,
     port: 8080,
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'Strict-Transport-Security':
         'max-age=63072000; includeSubdomains; preload',
       'Content-Security-Policy':

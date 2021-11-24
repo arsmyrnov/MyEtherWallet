@@ -751,7 +751,10 @@ export default {
           method: 'post',
           url: 'https://formspree.io/f/mqjndkkx',
           data: formData,
-          headers: { 'Content-Type': 'multipart/form-data' }
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'multipart/form-data'
+          }
         })
           .then(() => {
             this.formSubmissionSuccessful = true;

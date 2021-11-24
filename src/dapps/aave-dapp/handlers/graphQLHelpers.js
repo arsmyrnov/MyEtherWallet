@@ -146,6 +146,7 @@ function fetchQuery(query, param) {
   return fetch(url, {
     method: 'POST',
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
       Accept: 'application/json'
     },
