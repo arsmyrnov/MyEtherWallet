@@ -4,7 +4,7 @@
   "description": "Client side ethereum wallet",
   "scripts": {
     "build:offline": "WEBPACK_INTEGRITY=false npm run build:hash",
-    "build": "npm run update && vue-cli-service build",
+    "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit --logHeapUsage",
     "lint": "npm run lint:code && npm run lint:md",
     "build:hash": "ROUTER_MODE=hash npm run build",
@@ -85,7 +85,7 @@
     "walletlink": "2.2.8"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "14.1.0",
+    "@commitlint/config-conventional": "15.0.0",
     "@ledgerhq/hw-app-eth": "6.6.0",
     "@ledgerhq/hw-transport-webusb": "6.11.2",
     "@mdi/font": "6.4.95",
