@@ -11,9 +11,7 @@ import { toBN } from 'web3-utils';
 import getTokenInfo from '@/core/helpers/tokenInfo';
 
 const setCurrency = async function ({ commit }, val) {
-  fetch('https://mainnet.mewwallet.dev/v2/prices/exchange-rates', {
-    mode: 'no-cors'
-  })
+  fetch('https://mainnet.mewwallet.dev/v2/prices/exchange-rates')
     .then(res => res.json())
     .then(rates => {
       const currentRate = rates
@@ -98,10 +96,7 @@ const setTokenAndEthBalance = function ({
   }
   let mainTokenBalance = toBN('0');
   fetch(
-    `${TOKEN_BALANCE_API}/${network.type.name.toLowerCase()}?address=${address}`,
-    {
-      mode: 'no-cors'
-    }
+    `${TOKEN_BALANCE_API}/${network.type.name.toLowerCase()}?address=${address}`
   )
     .then(res => res.json())
     .then(res => res.result)
