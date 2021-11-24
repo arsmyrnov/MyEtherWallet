@@ -9,4 +9,5 @@ Makefile
 docker-compose.yml
 docs
 dist
+nginx
 release
